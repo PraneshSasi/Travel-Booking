@@ -1207,6 +1207,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const signupSubtitle = signupModal.querySelector('.signup-subtitle');
         const signupSubmitBtn = signupModal.querySelector('.btn-signup-submit');
         const toggleText = signupModal.querySelector('.signup-toggle-text');
+        const authModalContent = signupModal.querySelector('.auth-modal-content');
+        const nameInputGroup = document.getElementById('group-fullname');
+        const nameInput = document.getElementById('signup-name');
 
         let isLoginMode = false;
 
@@ -1218,30 +1221,42 @@ document.addEventListener('DOMContentLoaded', () => {
         if (signupClose) signupClose.addEventListener('click', closeSignup);
         if (signupOverlay) signupOverlay.addEventListener('click', closeSignup);
 
+        const updateAuthLayout = () => {
+            if (isLoginMode) {
+                if (authModalContent) authModalContent.classList.add('login-mode');
+                signupTitle.textContent = 'Welcome Back';
+                signupSubtitle.textContent = 'Enter your details to log in to SkyNest.';
+                signupSubmitBtn.textContent = 'Log In';
+                toggleText.innerHTML = `Don't have an account? <a href="#" id="toggle-login-btn">Sign up</a>`;
+                if (nameInput) {
+                    nameInput.required = false;
+                }
+            } else {
+                if (authModalContent) authModalContent.classList.remove('login-mode');
+                signupTitle.textContent = 'Join SkyNest';
+                signupSubtitle.textContent = 'Access member-only deals and track your bookings.';
+                signupSubmitBtn.textContent = 'Create Account';
+                toggleText.innerHTML = `Already have an account? <a href="#" id="toggle-login-btn">Log in</a>`;
+                if (nameInput) {
+                    nameInput.required = true;
+                }
+            }
+
+            const newToggle = document.getElementById('toggle-login-btn');
+            if (newToggle) {
+                newToggle.addEventListener('click', (ev) => {
+                    ev.preventDefault();
+                    isLoginMode = !isLoginMode;
+                    updateAuthLayout();
+                });
+            }
+        };
+
         if (toggleLogin) {
             toggleLogin.addEventListener('click', (e) => {
                 e.preventDefault();
                 isLoginMode = !isLoginMode;
-
-                if (isLoginMode) {
-                    signupTitle.textContent = 'Welcome Back';
-                    signupSubtitle.textContent = 'Enter your details to log in to SkyNest.';
-                    signupSubmitBtn.textContent = 'Log In';
-                    toggleText.innerHTML = `Don't have an account? <a href="#" id="toggle-login-btn">Sign up</a>`;
-                } else {
-                    signupTitle.textContent = 'Join SkyNest';
-                    signupSubtitle.textContent = 'Access member-only deals and track your bookings.';
-                    signupSubmitBtn.textContent = 'Create Account';
-                    toggleText.innerHTML = `Already have an account? <a href="#" id="toggle-login-btn">Log in</a>`;
-                }
-
-                const newToggle = document.getElementById('toggle-login-btn');
-                if (newToggle) {
-                    newToggle.addEventListener('click', (ev) => {
-                        ev.preventDefault();
-                        toggleLogin.click();
-                    });
-                }
+                updateAuthLayout();
             });
         }
 
@@ -1254,7 +1269,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (isLoginMode) {
                     alert(`🔓 Welcome back, ${username}! You have logged in successfully.`);
                 } else {
-                    alert(`🎉 Account Created!\n\nWelcome to SkyNest, ${username}! Your member profile is now active.`);
+                    const fullName = nameInput ? nameInput.value : username;
+                    alert(`🎉 Account Created!\n\nWelcome to SkyNest, ${fullName}! Your member profile is now active.`);
                 }
 
                 if (signupBtn) {
@@ -1267,6 +1283,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 signupForm.reset();
                 closeSignup();
+            });
+        }
+
+        // Mock Social Logins
+        const googleBtn = document.getElementById('btn-google-login');
+        const appleBtn = document.getElementById('btn-apple-login');
+        const forgotPassBtn = document.getElementById('forgot-pass-btn');
+
+        if (googleBtn) {
+            googleBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('🔓 Redirecting to Google Secure Authentication...');
+                closeSignup();
+            });
+        }
+
+        if (appleBtn) {
+            appleBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('🔓 Connecting with Apple ID...');
+                closeSignup();
+            });
+        }
+
+        if (forgotPassBtn) {
+            forgotPassBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const resetEmail = prompt('Please enter your email address to receive a password reset link:');
+                if (resetEmail) {
+                    alert(`✉️ A password reset link has been dispatched to ${resetEmail}. Check your inbox!`);
+                }
             });
         }
     }
