@@ -500,8 +500,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Fluid wave grid configuration
         const SEPARATION = 15;
-        const AMOUNTX = 60;
-        const AMOUNTY = 60;
+        const AMOUNTX = 40;
+        const AMOUNTY = 40;
 
         const numParticles = AMOUNTX * AMOUNTY;
         const positions = new Float32Array(numParticles * 3);
@@ -540,7 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scene.add(particles);
 
         // Add some random floating dust particles for depth
-        const dustCount = 300;
+        const dustCount = 120;
         const dustPositions = new Float32Array(dustCount * 3);
         for (let d = 0; d < dustCount; d++) {
             dustPositions[d * 3] = (Math.random() - 0.5) * 1000;
@@ -584,7 +584,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
             if (maxScroll <= 0) return;
             scrollPercent = window.scrollY / maxScroll;
-        });
+        }, { passive: true });
 
         // Animation Loop variables
         let count = 0;
