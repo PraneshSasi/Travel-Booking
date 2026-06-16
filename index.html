@@ -46,9 +46,10 @@
             </nav>
 
             <div class="header-actions">
-                <div class="search-box">
+                <div class="search-box header-search-group">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" placeholder="Search..." aria-label="Search destinations">
+                    <input type="text" id="header-search-input" placeholder="Search..." autocomplete="off" aria-label="Search destinations">
+                    <div class="search-suggestions" id="header-search-suggestions"></div>
                 </div>
                 <button class="btn btn-signup" id="signup-btn">
                     <span>Sign up</span>
@@ -115,21 +116,87 @@
             <div class="booking-container">
                 <!-- Tabs Menu -->
                 <div class="booking-tabs">
-                    <button class="booking-tab active" id="tab-flights">
-                        <i class="fa-solid fa-plane"></i>
-                        <span>Flights</span>
-                        <i class="fa-solid fa-chevron-down tab-chevron"></i>
-                    </button>
-                    <button class="booking-tab" id="tab-passengers">
-                        <i class="fa-solid fa-user"></i>
-                        <span>Adult</span>
-                        <i class="fa-solid fa-chevron-down tab-chevron"></i>
-                    </button>
-                    <button class="booking-tab" id="tab-class">
-                        <i class="fa-solid fa-couch"></i>
-                        <span>Economy</span>
-                        <i class="fa-solid fa-chevron-down tab-chevron"></i>
-                    </button>
+                    <!-- Flights Tab Wrapper -->
+                    <div class="booking-tab-wrapper">
+                        <button class="booking-tab active" id="tab-flights">
+                            <i class="fa-solid fa-plane"></i>
+                            <span>Flights</span>
+                            <i class="fa-solid fa-chevron-down tab-chevron"></i>
+                        </button>
+                        <!-- Dropdown Menu -->
+                        <div class="tab-dropdown" id="dropdown-flights">
+                            <div class="dropdown-item active" data-value="flights">
+                                <i class="fa-solid fa-plane"></i> Flights
+                            </div>
+                            <div class="dropdown-item" data-value="hotels">
+                                <i class="fa-solid fa-hotel"></i> Hotels
+                            </div>
+                            <div class="dropdown-item" data-value="packages">
+                                <i class="fa-solid fa-cubes"></i> Packages
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Passengers Tab Wrapper -->
+                    <div class="booking-tab-wrapper">
+                        <button class="booking-tab" id="tab-passengers">
+                            <i class="fa-solid fa-user"></i>
+                            <span>1 Adult</span>
+                            <i class="fa-solid fa-chevron-down tab-chevron"></i>
+                        </button>
+                        <!-- Dropdown Menu -->
+                        <div class="tab-dropdown dropdown-passengers" id="dropdown-passengers">
+                            <div class="counter-row">
+                                <div class="counter-label">
+                                    <span class="counter-title">Adults</span>
+                                    <span class="counter-sub">Age 18+</span>
+                                </div>
+                                <div class="counter-control">
+                                    <button type="button" class="counter-btn minus" data-type="adults"><i class="fa-solid fa-minus"></i></button>
+                                    <span class="counter-value" id="val-adults">1</span>
+                                    <button type="button" class="counter-btn plus" data-type="adults"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="counter-row">
+                                <div class="counter-label">
+                                    <span class="counter-title">Children</span>
+                                    <span class="counter-sub">Age 2-12</span>
+                                </div>
+                                <div class="counter-control">
+                                    <button type="button" class="counter-btn minus" data-type="children"><i class="fa-solid fa-minus"></i></button>
+                                    <span class="counter-value" id="val-children">0</span>
+                                    <button type="button" class="counter-btn plus" data-type="children"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="counter-row">
+                                <div class="counter-label">
+                                    <span class="counter-title">Infants</span>
+                                    <span class="counter-sub">Age 0-2</span>
+                                </div>
+                                <div class="counter-control">
+                                    <button type="button" class="counter-btn minus" data-type="infants"><i class="fa-solid fa-minus"></i></button>
+                                    <span class="counter-value" id="val-infants">0</span>
+                                    <button type="button" class="counter-btn plus" data-type="infants"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Class Tab Wrapper -->
+                    <div class="booking-tab-wrapper">
+                        <button class="booking-tab" id="tab-class">
+                            <i class="fa-solid fa-couch"></i>
+                            <span>Economy</span>
+                            <i class="fa-solid fa-chevron-down tab-chevron"></i>
+                        </button>
+                        <!-- Dropdown Menu -->
+                        <div class="tab-dropdown" id="dropdown-class">
+                            <div class="dropdown-item active" data-value="Economy">Economy</div>
+                            <div class="dropdown-item" data-value="Premium Economy">Premium Economy</div>
+                            <div class="dropdown-item" data-value="Business">Business</div>
+                            <div class="dropdown-item" data-value="First Class">First Class</div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Form Card -->
@@ -150,12 +217,13 @@
 
                     <!-- Input Grid -->
                     <form class="booking-form" id="flight-booking-form">
-                        <div class="input-group">
+                        <div class="input-group destination-group">
                             <label for="destination" class="input-label">Destinations +</label>
                             <div class="input-wrapper">
                                 <i class="fa-solid fa-location-dot input-icon"></i>
-                                <input type="text" id="destination" placeholder="Where are you going?" required>
+                                <input type="text" id="destination" placeholder="Where are you going?" autocomplete="off" required>
                             </div>
+                            <div class="search-suggestions" id="search-suggestions"></div>
                         </div>
 
                         <div class="input-group">
@@ -594,6 +662,35 @@
             Fly Far. Pay Less. Travel Better.
         </div>
     </footer>
+
+    <!-- Search Results Modal Overlay -->
+    <div class="search-modal" id="search-results-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close-btn" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-grid">
+                <div class="modal-image-col">
+                    <img id="modal-dest-image" src="" alt="Destination">
+                    <span class="elevation-badge" id="modal-dest-elevation"></span>
+                </div>
+                <div class="modal-info-col">
+                    <h3 id="modal-dest-title">Destination</h3>
+                    <p class="modal-dest-country" id="modal-dest-country">Country</p>
+                    
+                    <div class="modal-package-options">
+                        <!-- Dynamically filled by script.js -->
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <div class="modal-price-display">
+                            <span class="modal-price-amount" id="modal-total-price">₹0</span>
+                        </div>
+                        <button class="btn btn-primary btn-confirm-booking">Confirm Booking</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Three.js CDN for 3D Visualizations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
