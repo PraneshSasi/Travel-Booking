@@ -33,22 +33,138 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /* ==========================================
-       Booking Widget Tab Selection
+       Booking Widget Dropdowns & Counter Functionality
        ========================================== */
-    const bookingTabs = document.querySelectorAll('.booking-tab');
-    
-    bookingTabs.forEach(tab => {
-        tab.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            // In a real application, clicking these tabs might open a dropdown or switch context
-            // Here, we just toggle active styling for demonstration
-            bookingTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
+    const tabButtons = document.querySelectorAll('.booking-tab');
+    const dropdowns = document.querySelectorAll('.tab-dropdown');
 
-            // Feedback/Log (simulating sub-selections)
-            const tabName = tab.querySelector('span').textContent;
-            console.log(`Booking Tab Active: ${tabName}`);
+    // 1. Toggle dropdowns on click
+    tabButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const parentWrapper = button.closest('.booking-tab-wrapper');
+            const targetDropdown = parentWrapper.querySelector('.tab-dropdown');
+
+            // Close other dropdowns
+            dropdowns.forEach(dropdown => {
+                if (dropdown !== targetDropdown) {
+                    dropdown.classList.remove('active');
+                }
+            });
+
+            // Toggle target
+            targetDropdown.classList.toggle('active');
+        });
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.booking-tab-wrapper')) {
+            dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
+        }
+    });
+
+    // 2. Flights/Hotels/Packages selection
+    const flightsDropdownItems = document.querySelectorAll('#dropdown-flights .dropdown-item');
+    const flightsTabButton = document.getElementById('tab-flights');
+    const destinationInputLabel = document.querySelector('label[for="destination"]');
+    const destinationInput = document.getElementById('destination');
+
+    flightsDropdownItems.forEach(item => {
+        item.addEventListener('click', () => {
+            flightsDropdownItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+
+            const selectedIcon = item.querySelector('i').className;
+            const selectedText = item.textContent.trim();
+            flightsTabButton.querySelector('i').className = selectedIcon;
+            flightsTabButton.querySelector('span').textContent = selectedText;
+
+            const val = item.dataset.value;
+            if (val === 'hotels') {
+                destinationInputLabel.textContent = 'Hotels/City +';
+                destinationInput.placeholder = 'Where are you staying?';
+            } else if (val === 'packages') {
+                destinationInputLabel.textContent = 'Packages +';
+                destinationInput.placeholder = 'Where do you want to explore?';
+            } else {
+                destinationInputLabel.textContent = 'Destinations +';
+                destinationInput.placeholder = 'Where are you going?';
+            }
+
+            item.closest('.tab-dropdown').classList.remove('active');
+        });
+    });
+
+    // 3. Class Selection (Economy/Business/etc.)
+    const classDropdownItems = document.querySelectorAll('#dropdown-class .dropdown-item');
+    const classTabButton = document.getElementById('tab-class');
+
+    classDropdownItems.forEach(item => {
+        item.addEventListener('click', () => {
+            classDropdownItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+
+            const selectedText = item.textContent.trim();
+            classTabButton.querySelector('span').textContent = selectedText;
+
+            item.closest('.tab-dropdown').classList.remove('active');
+        });
+    });
+
+    // 4. Passenger Counter Logic (Adults/Children/Infants)
+    const passengerTabButton = document.getElementById('tab-passengers');
+    const counters = {
+        adults: { val: 1, min: 1, max: 9, element: document.getElementById('val-adults') },
+        children: { val: 0, min: 0, max: 9, element: document.getElementById('val-children') },
+        infants: { val: 0, min: 0, max: 9, element: document.getElementById('val-infants') }
+    };
+
+    const updatePassengerTabLabel = () => {
+        const adults = counters.adults.val;
+        const children = counters.children.val;
+        const infants = counters.infants.val;
+
+        if (children > 0 || infants > 0) {
+            const total = adults + children + infants;
+            passengerTabButton.querySelector('span').textContent = `${total} Guest${total > 1 ? 's' : ''}`;
+        } else {
+            passengerTabButton.querySelector('span').textContent = `${adults} Adult${adults > 1 ? 's' : ''}`;
+        }
+    };
+
+    const updateButtonStates = (type) => {
+        const counter = counters[type];
+        const row = counter.element.closest('.counter-row');
+        const minusBtn = row.querySelector('.minus');
+        const plusBtn = row.querySelector('.plus');
+
+        minusBtn.disabled = counter.val <= counter.min;
+        plusBtn.disabled = counter.val >= counter.max;
+    };
+
+    Object.keys(counters).forEach(type => updateButtonStates(type));
+
+    document.querySelectorAll('.counter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const type = btn.dataset.type;
+            const isPlus = btn.classList.contains('plus');
+            const counter = counters[type];
+
+            if (isPlus && counter.val < counter.max) {
+                counter.val++;
+            } else if (!isPlus && counter.val > counter.min) {
+                counter.val--;
+            }
+
+            counter.element.textContent = counter.val;
+            updateButtonStates(type);
+            updatePassengerTabLabel();
         });
     });
 

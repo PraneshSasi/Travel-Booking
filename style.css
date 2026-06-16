@@ -1638,3 +1638,148 @@ body {
     background-color: rgba(255, 255, 255, 0.75);
     border-bottom: 1px solid rgba(255, 255, 255, 0.35);
 }
+
+/* ==========================================
+   BOOKING TABS DROPDOWN FUNCTIONALITY
+   ========================================== */
+.booking-tabs {
+    display: flex;
+    gap: 1rem;
+    position: relative;
+}
+
+.booking-tab-wrapper {
+    position: relative;
+}
+
+.tab-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: var(--radius-md);
+    box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.1), 0 10px 25px -10px rgba(0, 210, 255, 0.05);
+    padding: 0.5rem 0;
+    min-width: 180px;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+    pointer-events: none;
+    transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tab-dropdown.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.dropdown-item {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--slate-700);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: var(--transition-fast);
+}
+
+@media (pointer: fine) {
+    .dropdown-item {
+        cursor: none !important;
+    }
+}
+
+.dropdown-item:hover {
+    background-color: rgba(241, 245, 249, 0.8);
+    color: var(--slate-900);
+}
+
+.dropdown-item.active {
+    background-color: rgba(0, 210, 255, 0.1);
+    color: var(--accent-blue);
+}
+
+/* Passenger Selector Specific Dropdown */
+.dropdown-passengers {
+    min-width: 280px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.counter-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.counter-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.counter-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--slate-900);
+}
+
+.counter-sub {
+    font-size: 0.75rem;
+    color: var(--slate-500);
+    font-weight: 500;
+}
+
+.counter-control {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.counter-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--slate-300);
+    background-color: #FFFFFF;
+    color: var(--slate-700);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    transition: var(--transition-fast);
+}
+
+@media (pointer: fine) {
+    .counter-btn {
+        cursor: none !important;
+    }
+}
+
+.counter-btn:hover:not(:disabled) {
+    border-color: var(--slate-900);
+    color: var(--slate-900);
+    background-color: var(--slate-100);
+}
+
+.counter-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed !important;
+}
+
+.counter-value {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--slate-900);
+    width: 20px;
+    text-align: center;
+    user-select: none;
+}
