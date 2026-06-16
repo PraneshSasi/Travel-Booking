@@ -692,6 +692,66 @@
         </div>
     </div>
 
+    <!-- Sign Up Modal Overlay -->
+    <div class="search-modal" id="signup-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content signup-modal-content">
+            <button class="modal-close-btn" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+            <div class="signup-modal-inner">
+                <h3 class="signup-title">Join SkyNest</h3>
+                <p class="signup-subtitle">Access member-only deals and track your bookings.</p>
+                <form class="signup-form" id="signup-form-element">
+                    <div class="input-group">
+                        <label for="signup-email" class="input-label">Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-envelope input-icon"></i>
+                            <input type="email" id="signup-email" placeholder="name@example.com" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="signup-password" class="input-label">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="signup-password" placeholder="••••••••" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-signup-submit">Create Account</button>
+                </form>
+                <div class="signup-toggle-text">
+                    Already have an account? <a href="#" id="toggle-login-btn">Log in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Modal Overlay -->
+    <div class="search-modal" id="support-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content signup-modal-content">
+            <button class="modal-close-btn" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+            <div class="signup-modal-inner">
+                <h3 class="signup-title">SkyNest Support</h3>
+                <p class="signup-subtitle">Have a question? Drop us a message.</p>
+                <form class="signup-form" id="support-form-element">
+                    <div class="input-group">
+                        <label for="support-name" class="input-label">Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-user input-icon"></i>
+                            <input type="text" id="support-name" placeholder="John Doe" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="support-msg" class="input-label">Message</label>
+                        <div class="input-wrapper" style="padding: 0.5rem 1rem;">
+                            <textarea id="support-msg" rows="4" placeholder="How can we help you today?" style="border: none; background: transparent; font-family: var(--font-body); font-size: 0.9rem; outline: none; width: 100%; resize: none;" required></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-signup-submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Three.js CDN for 3D Visualizations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- Script -->

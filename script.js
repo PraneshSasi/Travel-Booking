@@ -1087,4 +1087,276 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    /* ==========================================
+       SMOOTH NAVIGATION SCROLLING
+       ========================================== */
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach((link, index) => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+
+            if (index === 0) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (index === 1) {
+                const widget = document.getElementById('booking-widget');
+                if (widget) widget.scrollIntoView({ behavior: 'smooth' });
+            } else if (index === 2) {
+                const deals = document.querySelector('.deals-section');
+                if (deals) deals.scrollIntoView({ behavior: 'smooth' });
+            } else if (index === 3) {
+                openSupportModal();
+            }
+        });
+    });
+
+    const supportModal = document.getElementById('support-modal');
+    const openSupportModal = () => {
+        if (supportModal) {
+            supportModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    };
+
+    document.querySelectorAll('a').forEach(link => {
+        const txt = link.textContent.trim().toLowerCase();
+        if (txt === 'contact us' || txt === 'customer support') {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                openSupportModal();
+            });
+        } else if (txt === 'about us') {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const aboutSec = document.querySelector('.about-section');
+                if (aboutSec) aboutSec.scrollIntoView({ behavior: 'smooth' });
+            });
+        } else if (txt === 'packages') {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const popularSec = document.querySelector('.popular-section');
+                if (popularSec) popularSec.scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+    });
+
+    if (supportModal) {
+        const supportClose = supportModal.querySelector('.modal-close-btn');
+        const supportOverlay = supportModal.querySelector('.modal-overlay');
+        const supportForm = document.getElementById('support-form-element');
+
+        const closeSupport = () => {
+            supportModal.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        if (supportClose) supportClose.addEventListener('click', closeSupport);
+        if (supportOverlay) supportOverlay.addEventListener('click', closeSupport);
+
+        if (supportForm) {
+            supportForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('support-name').value;
+                alert(`✉️ Message Sent!\n\nThank you, ${name}! Your inquiry has been received. Our SkyNest support team will contact you at your email address shortly.`);
+                supportForm.reset();
+                closeSupport();
+            });
+        }
+    }
+
+
+    /* ==========================================
+       SIGN UP & ACCOUNT MANAGEMENT
+       ========================================== */
+    const signupBtn = document.getElementById('signup-btn');
+    const signupModal = document.getElementById('signup-modal');
+
+    const openSignupModal = () => {
+        if (signupModal) {
+            signupModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    };
+
+    if (signupBtn) {
+        signupBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (signupBtn.classList.contains('logged-in')) {
+                const confirmLogout = confirm('Would you like to log out of your SkyNest Member Account?');
+                if (confirmLogout) {
+                    signupBtn.classList.remove('logged-in');
+                    signupBtn.innerHTML = `
+                        <span>Sign up</span>
+                        <i class="fa-regular fa-user user-avatar-icon"></i>
+                    `;
+                }
+            } else {
+                openSignupModal();
+            }
+        });
+    }
+
+    if (signupModal) {
+        const signupClose = signupModal.querySelector('.modal-close-btn');
+        const signupOverlay = signupModal.querySelector('.modal-overlay');
+        const signupForm = document.getElementById('signup-form-element');
+        const toggleLogin = document.getElementById('toggle-login-btn');
+        const signupTitle = signupModal.querySelector('.signup-title');
+        const signupSubtitle = signupModal.querySelector('.signup-subtitle');
+        const signupSubmitBtn = signupModal.querySelector('.btn-signup-submit');
+        const toggleText = signupModal.querySelector('.signup-toggle-text');
+
+        let isLoginMode = false;
+
+        const closeSignup = () => {
+            signupModal.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        if (signupClose) signupClose.addEventListener('click', closeSignup);
+        if (signupOverlay) signupOverlay.addEventListener('click', closeSignup);
+
+        if (toggleLogin) {
+            toggleLogin.addEventListener('click', (e) => {
+                e.preventDefault();
+                isLoginMode = !isLoginMode;
+
+                if (isLoginMode) {
+                    signupTitle.textContent = 'Welcome Back';
+                    signupSubtitle.textContent = 'Enter your details to log in to SkyNest.';
+                    signupSubmitBtn.textContent = 'Log In';
+                    toggleText.innerHTML = `Don't have an account? <a href="#" id="toggle-login-btn">Sign up</a>`;
+                } else {
+                    signupTitle.textContent = 'Join SkyNest';
+                    signupSubtitle.textContent = 'Access member-only deals and track your bookings.';
+                    signupSubmitBtn.textContent = 'Create Account';
+                    toggleText.innerHTML = `Already have an account? <a href="#" id="toggle-login-btn">Log in</a>`;
+                }
+
+                const newToggle = document.getElementById('toggle-login-btn');
+                if (newToggle) {
+                    newToggle.addEventListener('click', (ev) => {
+                        ev.preventDefault();
+                        toggleLogin.click();
+                    });
+                }
+            });
+        }
+
+        if (signupForm) {
+            signupForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('signup-email').value;
+                const username = email.split('@')[0];
+                
+                if (isLoginMode) {
+                    alert(`🔓 Welcome back, ${username}! You have logged in successfully.`);
+                } else {
+                    alert(`🎉 Account Created!\n\nWelcome to SkyNest, ${username}! Your member profile is now active.`);
+                }
+
+                if (signupBtn) {
+                    signupBtn.classList.add('logged-in');
+                    signupBtn.innerHTML = `
+                        <span>Hi, ${username.substring(0, 8)}</span>
+                        <i class="fa-solid fa-circle-check" style="color: var(--primary);"></i>
+                    `;
+                }
+
+                signupForm.reset();
+                closeSignup();
+            });
+        }
+    }
+
+
+    /* ==========================================
+       HERO PILLS CYCLING & SELECTION
+       ========================================== */
+    const heroPillImages = document.querySelectorAll('.pill-img');
+    const heroPillPageNum = document.querySelector('.pill-page-number');
+    const heroPillPrev = document.querySelectorAll('.pill-arrow-btn')[0];
+    const heroPillNext = document.querySelectorAll('.pill-arrow-btn')[1];
+
+    const heroPages = [
+        [
+            { id: 'santorini', name: 'Santorini', src: 'assets/images/santorini.png' },
+            { id: 'banff', name: 'Banff', src: 'assets/images/banff.png' },
+            { id: 'kyoto', name: 'Kyoto', src: 'assets/images/kyoto.png' }
+        ],
+        [
+            { id: 'maldives', name: 'Maldives', src: 'assets/images/maldives.png' },
+            { id: 'dead_sea', name: 'Dead Sea', src: 'assets/images/dead_sea.png' },
+            { id: 'rio', name: 'Rio de Janeiro', src: 'assets/images/rio.png' }
+        ],
+        [
+            { id: 'london', name: 'London', src: 'assets/images/london.png' },
+            { id: 'dubai', name: 'Dubai', src: 'assets/images/dubai.png' },
+            { id: 'thailand', name: 'Thailand', src: 'assets/images/thailand.png' }
+        ],
+        [
+            { id: 'swiss_alps', name: 'Swiss Alps', src: 'assets/images/swiss_alps.png' },
+            { id: 'tajmahal', name: 'Taj Mahal', src: 'assets/images/tajmahal.png' },
+            { id: 'kyoto', name: 'Kyoto Temples', src: 'assets/images/kyoto.png' }
+        ]
+    ];
+
+    let currentHeroPageIdx = 0;
+
+    const updateHeroPillsDisplay = () => {
+        const pageData = heroPages[currentHeroPageIdx];
+        
+        heroPillImages.forEach((img, idx) => {
+            img.style.transform = 'scale(0.8)';
+            img.style.opacity = '0';
+            
+            setTimeout(() => {
+                img.src = pageData[idx].src;
+                img.alt = pageData[idx].name;
+                img.dataset.id = pageData[idx].id;
+                img.style.transform = 'scale(1)';
+                img.style.opacity = '1';
+            }, 150 + (idx * 50));
+        });
+
+        if (heroPillPageNum) {
+            heroPillPageNum.textContent = `${currentHeroPageIdx + 1} / ${heroPages.length}`;
+        }
+    };
+
+    const bindPillImageClicks = () => {
+        heroPillImages.forEach(img => {
+            img.addEventListener('click', () => {
+                const destId = img.dataset.id || img.alt.toLowerCase();
+                if (destId) {
+                    openBookingModal(destId);
+                }
+            });
+        });
+    };
+
+    if (heroPillNext) {
+        heroPillNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentHeroPageIdx = (currentHeroPageIdx + 1) % heroPages.length;
+            updateHeroPillsDisplay();
+        });
+    }
+
+    if (heroPillPrev) {
+        heroPillPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentHeroPageIdx = (currentHeroPageIdx - 1 + heroPages.length) % heroPages.length;
+            updateHeroPillsDisplay();
+        });
+    }
+
+    heroPillImages[0].dataset.id = 'santorini';
+    heroPillImages[1].dataset.id = 'banff';
+    heroPillImages[2].dataset.id = 'kyoto';
+
+    bindPillImageClicks();
+
 });
