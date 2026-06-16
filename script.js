@@ -1210,12 +1210,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const authModalContent = signupModal.querySelector('.auth-modal-content');
         const nameInputGroup = document.getElementById('group-fullname');
         const nameInput = document.getElementById('signup-name');
+        const passwordInput = document.getElementById('signup-password');
+        const togglePasswordEye = document.getElementById('toggle-password-eye');
 
         let isLoginMode = false;
 
         const closeSignup = () => {
             signupModal.classList.remove('active');
             document.body.style.overflow = '';
+            // Reset password field to password type and reset eye icon
+            if (passwordInput) {
+                passwordInput.setAttribute('type', 'password');
+            }
+            if (togglePasswordEye) {
+                togglePasswordEye.classList.remove('fa-eye-slash');
+                togglePasswordEye.classList.add('fa-eye');
+            }
         };
 
         if (signupClose) signupClose.addEventListener('click', closeSignup);
@@ -1313,6 +1323,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 const resetEmail = prompt('Please enter your email address to receive a password reset link:');
                 if (resetEmail) {
                     alert(`✉️ A password reset link has been dispatched to ${resetEmail}. Check your inbox!`);
+                }
+            });
+        }
+
+        // Toggle password visibility
+        if (togglePasswordEye && passwordInput) {
+            togglePasswordEye.addEventListener('click', () => {
+                const isPasswordType = passwordInput.getAttribute('type') === 'password';
+                passwordInput.setAttribute('type', isPasswordType ? 'text' : 'password');
+                
+                // Toggle eye icon class
+                if (isPasswordType) {
+                    togglePasswordEye.classList.remove('fa-eye');
+                    togglePasswordEye.classList.add('fa-eye-slash');
+                } else {
+                    togglePasswordEye.classList.remove('fa-eye-slash');
+                    togglePasswordEye.classList.add('fa-eye');
                 }
             });
         }

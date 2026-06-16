@@ -2373,6 +2373,10 @@ body {
     width: 440px !important;
 }
 
+.auth-modal-content.login-mode #group-fullname {
+    display: none !important;
+}
+
 .auth-container-split {
     display: flex;
     width: 100%;
@@ -2665,6 +2669,28 @@ body {
     .auth-visual-panel {
         display: none !important;
     }
+}
+
+/* Eye-toggle password visibility bar styles */
+.toggle-password-visibility {
+    position: absolute;
+    right: 1.25rem;
+    cursor: pointer;
+    color: var(--slate-400);
+    transition: color var(--transition-fast);
+    font-size: 1rem;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-password-visibility:hover {
+    color: var(--primary);
+}
+
+.input-wrapper:has(.toggle-password-visibility) {
+    padding-right: 3rem;
 }
 
 
