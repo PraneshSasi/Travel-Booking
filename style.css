@@ -977,6 +977,23 @@ body {
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-premium);
+    animation: aboutVisualFloat 6s ease-in-out infinite;
+    will-change: transform;
+}
+
+@keyframes aboutVisualFloat {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+        box-shadow: 0 30px 60px rgba(140, 58, 36, 0.06), 0 10px 25px rgba(30, 32, 30, 0.03);
+    }
+    50% {
+        transform: translateY(-12px) rotate(0.5deg);
+        box-shadow: 0 38px 75px rgba(140, 58, 36, 0.12), 0 14px 30px rgba(30, 32, 30, 0.05);
+    }
+    100% {
+        transform: translateY(0px) rotate(0deg);
+        box-shadow: 0 30px 60px rgba(140, 58, 36, 0.06), 0 10px 25px rgba(30, 32, 30, 0.03);
+    }
 }
 
 .about-img {
