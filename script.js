@@ -431,42 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    /* ==========================================
-       Hero Pills Interactivity (Mock navigation)
-       ========================================== */
-    const pillPageNum = document.querySelector('.pill-page-number');
-    const pillArrowPrev = document.querySelectorAll('.pill-arrow-btn')[0];
-    const pillArrowNext = document.querySelectorAll('.pill-arrow-btn')[1];
-    
-    let currentPillPage = 1;
-    const totalPillPages = 4;
 
-    if (pillArrowPrev && pillArrowNext && pillPageNum) {
-        pillArrowNext.addEventListener('click', () => {
-            currentPillPage++;
-            if (currentPillPage > totalPillPages) currentPillPage = 1;
-            pillPageNum.textContent = `${currentPillPage} / ${totalPillPages}`;
-            simulatePillChange();
-        });
-
-        pillArrowPrev.addEventListener('click', () => {
-            currentPillPage--;
-            if (currentPillPage < 1) currentPillPage = totalPillPages;
-            pillPageNum.textContent = `${currentPillPage} / ${totalPillPages}`;
-            simulatePillChange();
-        });
-    }
-
-    const simulatePillChange = () => {
-        const pillImages = document.querySelectorAll('.pill-img');
-        pillImages.forEach((img, idx) => {
-            // Apply scale pop on update
-            img.style.transform = 'scale(0.8)';
-            setTimeout(() => {
-                img.style.transform = 'scale(1)';
-            }, 100 * idx);
-        });
-    };
 
 
     /* ==========================================
@@ -1345,92 +1310,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
-    /* ==========================================
-       HERO PILLS CYCLING & SELECTION
-       ========================================== */
-    const heroPillImages = document.querySelectorAll('.pill-img');
-    const heroPillPageNum = document.querySelector('.pill-page-number');
-    const heroPillPrev = document.querySelectorAll('.pill-arrow-btn')[0];
-    const heroPillNext = document.querySelectorAll('.pill-arrow-btn')[1];
-
-    const heroPages = [
-        [
-            { id: 'santorini', name: 'Santorini', src: 'assets/images/santorini.png' },
-            { id: 'banff', name: 'Banff', src: 'assets/images/banff.png' },
-            { id: 'kyoto', name: 'Kyoto', src: 'assets/images/kyoto.png' }
-        ],
-        [
-            { id: 'maldives', name: 'Maldives', src: 'assets/images/maldives.png' },
-            { id: 'dead_sea', name: 'Dead Sea', src: 'assets/images/dead_sea.png' },
-            { id: 'rio', name: 'Rio de Janeiro', src: 'assets/images/rio.png' }
-        ],
-        [
-            { id: 'london', name: 'London', src: 'assets/images/london.png' },
-            { id: 'dubai', name: 'Dubai', src: 'assets/images/dubai.png' },
-            { id: 'thailand', name: 'Thailand', src: 'assets/images/thailand.png' }
-        ],
-        [
-            { id: 'swiss_alps', name: 'Swiss Alps', src: 'assets/images/swiss_alps.png' },
-            { id: 'tajmahal', name: 'Taj Mahal', src: 'assets/images/tajmahal.png' },
-            { id: 'kyoto', name: 'Kyoto Temples', src: 'assets/images/kyoto.png' }
-        ]
-    ];
-
-    let currentHeroPageIdx = 0;
-
-    const updateHeroPillsDisplay = () => {
-        const pageData = heroPages[currentHeroPageIdx];
-        
-        heroPillImages.forEach((img, idx) => {
-            img.style.transform = 'scale(0.8)';
-            img.style.opacity = '0';
-            
-            setTimeout(() => {
-                img.src = pageData[idx].src;
-                img.alt = pageData[idx].name;
-                img.dataset.id = pageData[idx].id;
-                img.style.transform = 'scale(1)';
-                img.style.opacity = '1';
-            }, 150 + (idx * 50));
-        });
-
-        if (heroPillPageNum) {
-            heroPillPageNum.textContent = `${currentHeroPageIdx + 1} / ${heroPages.length}`;
-        }
-    };
-
-    const bindPillImageClicks = () => {
-        heroPillImages.forEach(img => {
-            img.addEventListener('click', () => {
-                const destId = img.dataset.id || img.alt.toLowerCase();
-                if (destId) {
-                    openBookingModal(destId);
-                }
-            });
-        });
-    };
-
-    if (heroPillNext) {
-        heroPillNext.addEventListener('click', (e) => {
-            e.stopPropagation();
-            currentHeroPageIdx = (currentHeroPageIdx + 1) % heroPages.length;
-            updateHeroPillsDisplay();
-        });
-    }
-
-    if (heroPillPrev) {
-        heroPillPrev.addEventListener('click', (e) => {
-            e.stopPropagation();
-            currentHeroPageIdx = (currentHeroPageIdx - 1 + heroPages.length) % heroPages.length;
-            updateHeroPillsDisplay();
-        });
-    }
-
-    heroPillImages[0].dataset.id = 'santorini';
-    heroPillImages[1].dataset.id = 'banff';
-    heroPillImages[2].dataset.id = 'kyoto';
-
-    bindPillImageClicks();
 
 });
