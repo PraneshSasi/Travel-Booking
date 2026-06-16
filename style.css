@@ -1415,67 +1415,77 @@ body {
     }
     
     .custom-cursor {
-        width: 40px;
-        height: 40px;
-        border: 1.5px solid var(--slate-900);
+        width: 44px;
+        height: 44px;
+        border: 1px dashed rgba(194, 89, 63, 0.5); /* Terracotta dashed target compass */
         border-radius: 50%;
         position: fixed;
         transform: translate(-50%, -50%);
         pointer-events: none;
         z-index: 9999999;
-        transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        mix-blend-mode: difference;
-        border-color: #FFFFFF; /* White on dark difference */
+        animation: cursorRotate 10s linear infinite;
+        transition: width 0.35s cubic-bezier(0.25, 1, 0.2, 1), 
+                    height 0.35s cubic-bezier(0.25, 1, 0.2, 1), 
+                    background-color 0.35s cubic-bezier(0.25, 1, 0.2, 1), 
+                    border-color 0.35s cubic-bezier(0.25, 1, 0.2, 1);
+    }
+    
+    @keyframes cursorRotate {
+        from { transform: translate(-50%, -50%) rotate(0deg); }
+        to { transform: translate(-50%, -50%) rotate(360deg); }
     }
     
     .custom-cursor-dot {
-        width: 6px;
-        height: 6px;
+        width: 8px;
+        height: 8px;
         background-color: var(--primary);
         border-radius: 50%;
         position: fixed;
         transform: translate(-50%, -50%);
         pointer-events: none;
         z-index: 10000000;
-        transition: transform 0.15s ease, background-color 0.2s ease;
+        transition: transform 0.25s cubic-bezier(0.25, 1, 0.2, 1), background-color 0.2s ease;
     }
     
     /* Hover state for links & buttons */
     .custom-cursor.hovered {
-        width: 60px;
-        height: 60px;
-        background-color: rgba(255, 255, 255, 0.1);
-        border-color: var(--primary);
+        width: 52px;
+        height: 52px;
+        border: 1.5px solid var(--primary);
+        background-color: rgba(194, 89, 63, 0.05);
+        animation-duration: 4s; /* Spin faster on action targets! */
     }
     
     .custom-cursor-dot.hovered {
-        transform: translate(-50%, -50%) scale(1.5);
-        background-color: #FFFFFF;
+        transform: translate(-50%, -50%) scale(0.6);
+        background-color: var(--primary-dark);
     }
 
     /* Explore badge state for cards */
     .custom-cursor.explore {
-        width: 80px;
-        height: 80px;
+        width: 84px;
+        height: 84px;
         background-color: var(--primary);
-        border-color: var(--primary);
-        mix-blend-mode: normal;
+        border: 1px solid var(--primary);
+        animation: none; /* Stop rotation for readable text display */
+        transform: translate(-50%, -50%) rotate(0deg) !important;
     }
     
     .custom-cursor.explore .custom-cursor-text {
         display: block;
-        color: var(--slate-900);
-        font-family: var(--font-heading);
+        color: #FAF6F0; /* Cream text */
+        font-family: var(--font-body);
         font-size: 10px;
         font-weight: 700;
-        letter-spacing: 1px;
+        letter-spacing: 2px;
         text-transform: uppercase;
     }
     
     .custom-cursor-dot.explore {
+        transform: translate(-50%, -50%) scale(0);
         opacity: 0;
     }
 }
