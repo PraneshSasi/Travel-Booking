@@ -2,38 +2,38 @@
    DESIGN SYSTEM & VARIABLES
    ========================================== */
 :root {
-    /* Color Palette */
-    --primary: #00D2FF;
-    --primary-dark: #00A3C4;
-    --accent-blue: #2563EB;
-    --slate-900: #0F172A;
-    --slate-700: #334155;
-    --slate-500: #64748B;
-    --slate-300: #CBD5E1;
-    --slate-100: #F1F5F9;
-    --bg-light: #F8FAFC;
-    --bg-widget: #D6E4FF;
-    --bg-card: #FFFFFF;
+    /* Color Palette - Warm Editorial (Terracotta & Champagne Sand) */
+    --primary: #C2593F;       /* Terracotta / Rust */
+    --primary-dark: #8C3A24;  /* Dark Terracotta */
+    --accent-blue: #C2593F;   /* Align accent with primary */
+    --slate-900: #1E201E;     /* Off-Black Charcoal */
+    --slate-700: #3E423F;     /* Muted Charcoal */
+    --slate-500: #707571;     /* Sage Grey */
+    --slate-300: #D3D6D3;     /* Light Sage Grey */
+    --slate-100: #F4F6F4;     /* Warm Cream-Grey */
+    --bg-light: #FAF6F0;      /* Warm Alabaster / Sand */
+    --bg-widget: rgba(244, 239, 230, 0.85); /* Champagne Frosted Glass */
+    --bg-card: rgba(255, 255, 255, 0.75); /* Alabaster Glass */
     
     /* Typography */
-    --font-heading: 'Space Grotesk', sans-serif;
-    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-heading: 'Cormorant Garamond', serif;
+    --font-body: 'Outfit', sans-serif;
 
     /* Shadows & Borders */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-    --shadow-premium: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
+    --shadow-sm: 0 1px 3px rgba(30, 32, 30, 0.05);
+    --shadow-md: 0 4px 12px rgba(30, 32, 30, 0.06);
+    --shadow-lg: 0 12px 24px rgba(30, 32, 30, 0.08);
+    --shadow-premium: 0 30px 60px rgba(140, 58, 36, 0.06), 0 10px 25px rgba(30, 32, 30, 0.03);
     
-    --radius-sm: 8px;
+    --radius-sm: 6px;
     --radius-md: 12px;
-    --radius-lg: 20px;
-    --radius-xl: 30px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
     --radius-full: 9999px;
     
     /* Transitions */
-    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-normal: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --transition-normal: 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 /* ==========================================
@@ -257,10 +257,10 @@ body {
 
 .hero-title {
     font-family: var(--font-heading);
-    font-weight: 700;
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 300;
+    font-size: clamp(2.5rem, 5.5vw, 5rem);
     line-height: 1.05;
-    letter-spacing: -1.5px;
+    letter-spacing: -1px;
     color: var(--slate-900);
     margin-bottom: 1.5rem;
 }
@@ -396,7 +396,7 @@ body {
     width: 100%;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(15px 30px 45px rgba(0, 210, 255, 0.2)) drop-shadow(15px 30px 40px rgba(15, 23, 42, 0.1));
+    filter: drop-shadow(15px 30px 45px rgba(194, 89, 63, 0.2)) drop-shadow(15px 30px 40px rgba(15, 23, 42, 0.1));
 }
 
 @keyframes floatingPlane {
@@ -617,10 +617,12 @@ body {
 
 .section-title {
     font-family: var(--font-heading);
-    font-size: 2.25rem;
-    font-weight: 700;
+    font-size: 2.75rem;
+    font-weight: 300;
+    font-style: italic;
     color: var(--slate-900);
     margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
 }
 
 .section-subtitle {
@@ -828,9 +830,11 @@ body {
 
 .popular-title {
     font-family: var(--font-heading);
-    font-size: 2.25rem;
-    font-weight: 700;
+    font-size: 2.75rem;
+    font-weight: 300;
+    font-style: italic;
     color: var(--slate-900);
+    letter-spacing: -0.5px;
 }
 
 .carousel-nav-arrows {
@@ -954,10 +958,12 @@ body {
 
 .about-title {
     font-family: var(--font-heading);
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-size: 2.75rem;
+    font-weight: 300;
+    font-style: italic;
     margin-bottom: 1.5rem;
     color: var(--slate-900);
+    letter-spacing: -0.5px;
 }
 
 .about-paragraph {
@@ -992,9 +998,12 @@ body {
 .testimonials-heading {
     text-align: center;
     font-family: var(--font-heading);
-    font-size: 2.25rem;
-    font-weight: 700;
+    font-size: 2.75rem;
+    font-weight: 300;
+    font-style: italic;
     margin-bottom: 4rem;
+    color: var(--slate-900);
+    letter-spacing: -0.5px;
 }
 
 .testimonials-grid {
@@ -1497,7 +1506,7 @@ body {
 .mesh-blob-1 {
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, #00D2FF 0%, rgba(0, 210, 255, 0) 70%);
+    background: radial-gradient(circle, rgba(212, 163, 115, 0.22) 0%, rgba(212, 163, 115, 0) 70%);
     top: -150px;
     left: -150px;
     animation: floatBlob1 25s infinite alternate ease-in-out;
@@ -1506,7 +1515,7 @@ body {
 .mesh-blob-2 {
     width: 700px;
     height: 700px;
-    background: radial-gradient(circle, #2563EB 0%, rgba(37, 99, 235, 0) 70%);
+    background: radial-gradient(circle, rgba(194, 89, 63, 0.18) 0%, rgba(194, 89, 63, 0) 70%);
     bottom: -200px;
     right: -200px;
     animation: floatBlob2 30s infinite alternate ease-in-out;
@@ -1515,7 +1524,7 @@ body {
 .mesh-blob-3 {
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, #A855F7 0%, rgba(168, 85, 247, 0) 70%);
+    background: radial-gradient(circle, rgba(112, 117, 113, 0.15) 0%, rgba(112, 117, 113, 0) 70%);
     top: 40%;
     left: 30%;
     animation: floatBlob3 22s infinite alternate ease-in-out;
@@ -1606,7 +1615,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.45);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.06), 0 15px 35px -15px rgba(0, 210, 255, 0.08);
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.06), 0 15px 35px -15px rgba(194, 89, 63, 0.08);
 }
 
 .booking-tab {
@@ -1615,8 +1624,8 @@ body {
 }
 
 .booking-tab.active {
-    background-color: rgba(214, 228, 255, 0.9);
-    border-color: rgba(214, 228, 255, 0.9);
+    background-color: rgba(244, 239, 230, 0.9);
+    border-color: rgba(244, 239, 230, 0.9);
 }
 
 .deal-option {
@@ -1661,7 +1670,7 @@ body {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-radius: var(--radius-md);
-    box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.1), 0 10px 25px -10px rgba(0, 210, 255, 0.05);
+    box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.1), 0 10px 25px -10px rgba(194, 89, 63, 0.05);
     padding: 0.5rem 0;
     min-width: 180px;
     z-index: 1000;
@@ -1701,7 +1710,7 @@ body {
 }
 
 .dropdown-item.active {
-    background-color: rgba(0, 210, 255, 0.1);
+    background-color: rgba(194, 89, 63, 0.1);
     color: var(--accent-blue);
 }
 
@@ -1832,7 +1841,7 @@ body {
 }
 
 .suggestion-item:hover {
-    background-color: rgba(0, 210, 255, 0.1);
+    background-color: rgba(194, 89, 63, 0.1);
 }
 
 .suggestion-info {
@@ -1903,7 +1912,7 @@ body {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-radius: var(--radius-lg);
-    box-shadow: 0 35px 70px -15px rgba(15, 23, 42, 0.2), 0 15px 30px -15px rgba(0, 210, 255, 0.1);
+    box-shadow: 0 35px 70px -15px rgba(15, 23, 42, 0.2), 0 15px 30px -15px rgba(194, 89, 63, 0.1);
     overflow: hidden;
     z-index: 10;
     transform: scale(0.92) translateY(20px);
@@ -1965,8 +1974,8 @@ body {
     position: absolute;
     top: 1.5rem;
     left: 1.5rem;
-    background: rgba(0, 210, 255, 0.9);
-    color: var(--slate-900);
+    background: rgba(194, 89, 63, 0.95);
+    color: #FFFFFF;
     font-size: 0.75rem;
     font-weight: 700;
     padding: 0.45rem 0.9rem;
@@ -2073,8 +2082,8 @@ body {
 .modal-package-option:hover {
     background: rgba(255, 255, 255, 0.75) !important;
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 210, 255, 0.15);
-    border-color: rgba(0, 210, 255, 0.4) !important;
+    box-shadow: 0 8px 20px rgba(194, 89, 63, 0.15);
+    border-color: rgba(194, 89, 63, 0.4) !important;
 }
 
 .modal-package-option input:checked + .deal-dot {
@@ -2093,5 +2102,5 @@ body {
 .modal-package-option:has(input:checked) {
     background: rgba(255, 255, 255, 0.95) !important;
     border-color: var(--primary) !important;
-    box-shadow: 0 10px 25px rgba(0, 210, 255, 0.25);
+    box-shadow: 0 10px 25px rgba(194, 89, 63, 0.25);
 }

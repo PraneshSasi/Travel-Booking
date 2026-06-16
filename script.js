@@ -514,7 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ==========================================
        WebGL 3D Full-Page Background (Three.js)
        ========================================== */
-    const init3DGlobe = () => {
+    const init3DBackground = () => {
         const container = document.getElementById('page-3d-canvas-container');
         if (!container) return;
 
@@ -522,8 +522,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const scene = new THREE.Scene();
 
         // Camera
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.z = 4.5;
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.y = 150; // Look down from top-angle
+        camera.position.z = 250;
+        camera.position.x = 0;
 
         // Renderer
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -531,229 +533,163 @@ document.addEventListener('DOMContentLoaded', () => {
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer.domElement);
 
-        // Group to hold the Globe components (so we can rotate them together)
-        const globeGroup = new THREE.Group();
-        scene.add(globeGroup);
+        // Fluid wave grid configuration
+        const SEPARATION = 15;
+        const AMOUNTX = 60;
+        const AMOUNTY = 60;
 
-        // 1. Globe Wireframe Sphere
-        const sphereGeo = new THREE.SphereGeometry(1.5, 24, 24);
-        const sphereMat = new THREE.MeshBasicMaterial({
-            color: 0x00d2ff,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.12
-        });
-        const globeWireframe = new THREE.Mesh(sphereGeo, sphereMat);
-        globeGroup.add(globeWireframe);
+        const numParticles = AMOUNTX * AMOUNTY;
+        const positions = new Float32Array(numParticles * 3);
+        const scales = new Float32Array(numParticles);
 
-        // 2. Particle Globe (Points)
-        const particleGeo = new THREE.BufferGeometry();
-        const particleCount = 500;
-        const positions = new Float32Array(particleCount * 3);
-        
-        for (let i = 0; i < particleCount; i++) {
-            const u = Math.random();
-            const v = Math.random();
-            const theta = u * 2.0 * Math.PI;
-            const phi = Math.acos(2.0 * v - 1.0);
-            const r = 1.5;
-            
-            positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-            positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-            positions[i * 3 + 2] = r * Math.cos(phi);
-        }
-        
-        particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        const particleMat = new THREE.PointsMaterial({
-            color: 0x00d2ff,
-            size: 0.035,
-            transparent: true,
-            opacity: 0.75
-        });
-        const globePoints = new THREE.Points(particleGeo, particleMat);
-        globeGroup.add(globePoints);
+        let i = 0, j = 0;
 
-        // 3. Orbit Rings (Torus/Ring style)
-        const ringMat = new THREE.MeshBasicMaterial({
-            color: 0x2563eb,
-            side: THREE.DoubleSide,
-            transparent: true,
-            opacity: 0.35
-        });
+        // Initialize positions
+        for (let ix = 0; ix < AMOUNTX; ix++) {
+            for (let iy = 0; iy < AMOUNTY; iy++) {
+                positions[i] = ix * SEPARATION - ((AMOUNTX * SEPARATION) / 2); // x
+                positions[i + 1] = 0; // y
+                positions[i + 2] = iy * SEPARATION - ((AMOUNTY * SEPARATION) / 2); // z
 
-        // Ring 1 (Horizontal Orbit)
-        const ringGeo1 = new THREE.RingGeometry(1.8, 1.815, 64);
-        const orbitRing1 = new THREE.Mesh(ringGeo1, ringMat);
-        orbitRing1.rotation.x = Math.PI / 2;
-        globeGroup.add(orbitRing1);
+                scales[j] = 1;
 
-        // Ring 2 (Tilted Orbit)
-        const ringGeo2 = new THREE.RingGeometry(2.0, 2.015, 64);
-        const orbitRing2 = new THREE.Mesh(ringGeo2, ringMat);
-        orbitRing2.rotation.x = Math.PI / 4;
-        orbitRing2.rotation.y = Math.PI / 4;
-        globeGroup.add(orbitRing2);
-
-        // Add 3D markers for cities
-        const markerGeo = new THREE.SphereGeometry(0.04, 8, 8);
-        const markerMat = new THREE.MeshBasicMaterial({ color: 0xff3b30 });
-        const addMarker = (lat, lon) => {
-            const radLat = (lat * Math.PI) / 180;
-            const radLon = (lon * Math.PI) / 180;
-            const r = 1.5;
-            const marker = new THREE.Mesh(markerGeo, markerMat);
-            marker.position.x = r * Math.cos(radLat) * Math.cos(radLon);
-            marker.position.y = r * Math.sin(radLat);
-            marker.position.z = r * Math.cos(radLat) * Math.sin(radLon);
-            globeGroup.add(marker);
-        };
-
-        // Add markers
-        addMarker(25.2, 55.2);   // Dubai
-        addMarker(51.5, -0.1);   // London
-        addMarker(15.8, 100.9);  // Thailand
-        addMarker(51.1, -115.5); // Canada (Banff)
-        addMarker(27.1, 78.0);   // India (Agra)
-
-        // 4. Background Starfield (Drifting cosmic stars)
-        const starGeo = new THREE.BufferGeometry();
-        const starCount = 1000;
-        const starPositions = new Float32Array(starCount * 3);
-        
-        for (let i = 0; i < starCount; i++) {
-            starPositions[i * 3] = (Math.random() - 0.5) * 20;
-            starPositions[i * 3 + 1] = (Math.random() - 0.5) * 20;
-            // Spread along depth
-            starPositions[i * 3 + 2] = (Math.random() - 0.5) * 20;
-        }
-        
-        starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-        const starMat = new THREE.PointsMaterial({
-            color: 0x64748b,
-            size: 0.02,
-            transparent: true,
-            opacity: 0.45
-        });
-        const starfield = new THREE.Points(starGeo, starMat);
-        scene.add(starfield);
-
-        // Position Globe Group to align with the Hero plane visual on desktop
-        const positionGlobeGroup = () => {
-            if (window.innerWidth > 1024) {
-                globeGroup.position.x = 1.25; // Shift right
-                globeGroup.position.y = 0.35;
-                globeGroup.scale.set(1, 1, 1);
-            } else {
-                globeGroup.position.x = 0;    // Center on mobile
-                globeGroup.position.y = -0.55;
-                globeGroup.scale.set(0.85, 0.85, 0.85); // Scale down slightly
+                i += 3;
+                j++;
             }
-        };
-        positionGlobeGroup();
+        }
 
-        // Mouse Interactivity (Drag-Anywhere to Rotate Space)
-        let isDragging = false;
-        let previousMousePosition = { x: 0, y: 0 };
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
 
-        document.addEventListener('mousedown', (e) => {
-            // Ignore drags on links, buttons, inputs, select boxes or cards to avoid visual clashing
-            if (e.target.closest('button, input, select, a, .deal-card, .destination-card, .testimonial-card, .header, .nav')) return;
-            isDragging = true;
-            previousMousePosition = { x: e.clientX, y: e.clientY };
+        // Create warm golden sand colored material
+        const material = new THREE.PointsMaterial({
+            color: 0xD4A373, // Warm Gold Sand
+            size: 2.8,
+            transparent: true,
+            opacity: 0.75,
+            sizeAttenuation: true
         });
 
-        document.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            const deltaMove = {
-                x: e.clientX - previousMousePosition.x,
-                y: e.clientY - previousMousePosition.y
-            };
-            
-            // Spin both globe and starfield slightly to create parallax rotate
-            globeGroup.rotation.y += deltaMove.x * 0.003;
-            globeGroup.rotation.x += deltaMove.y * 0.003;
-            starfield.rotation.y += deltaMove.x * 0.0005;
-            
-            previousMousePosition = { x: e.clientX, y: e.clientY };
+        const particles = new THREE.Points(geometry, material);
+        scene.add(particles);
+
+        // Add some random floating dust particles for depth
+        const dustCount = 300;
+        const dustPositions = new Float32Array(dustCount * 3);
+        for (let d = 0; d < dustCount; d++) {
+            dustPositions[d * 3] = (Math.random() - 0.5) * 1000;
+            dustPositions[d * 3 + 1] = Math.random() * 500 - 100;
+            dustPositions[d * 3 + 2] = (Math.random() - 0.5) * 1000;
+        }
+        const dustGeometry = new THREE.BufferGeometry();
+        dustGeometry.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
+        const dustMaterial = new THREE.PointsMaterial({
+            color: 0xC2593F, // Warm Terracotta sparks
+            size: 1.5,
+            transparent: true,
+            opacity: 0.45,
+            sizeAttenuation: true
+        });
+        const dustParticles = new THREE.Points(dustGeometry, dustMaterial);
+        scene.add(dustParticles);
+
+        // Mouse interaction targets
+        let mouseX = 0, mouseY = 0;
+        let targetMouseX = 0, targetMouseY = 0;
+
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (event) => {
+            targetMouseX = (event.clientX - windowHalfX) * 0.15;
+            targetMouseY = (event.clientY - windowHalfY) * 0.15;
         });
 
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-        });
-
-        // Touch drag controls
-        document.addEventListener('touchstart', (e) => {
-            if (e.target.closest('button, input, select, a, .deal-card, .destination-card, .testimonial-card, .header, .nav')) return;
-            if (e.touches.length === 1) {
-                isDragging = true;
-                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        document.addEventListener('touchmove', (event) => {
+            if (event.touches.length === 1) {
+                targetMouseX = (event.touches[0].clientX - windowHalfX) * 0.15;
+                targetMouseY = (event.touches[0].clientY - windowHalfY) * 0.15;
             }
         });
 
-        document.addEventListener('touchmove', (e) => {
-            if (!isDragging || e.touches.length !== 1) return;
-            const deltaMove = {
-                x: e.touches[0].clientX - previousMousePosition.x,
-                y: e.touches[0].clientY - previousMousePosition.y
-            };
-            globeGroup.rotation.y += deltaMove.x * 0.003;
-            globeGroup.rotation.x += deltaMove.y * 0.003;
-            previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        });
-
-        document.addEventListener('touchend', () => {
-            isDragging = false;
-        });
-
-        // 5. Scroll-driven Camera fly-through
+        // Scroll interaction
         let scrollPercent = 0;
         window.addEventListener('scroll', () => {
             const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
             if (maxScroll <= 0) return;
             scrollPercent = window.scrollY / maxScroll;
-            
-            // Move camera down the Y axis to fly past the globe and down the page sections
-            camera.position.y = -scrollPercent * 6.5;
-            camera.position.z = 4.5 - scrollPercent * 1.5;
-            
-            // Translate starfield forward to make stars feel closer
-            starfield.position.z = scrollPercent * 3.5;
-            starfield.rotation.y = scrollPercent * 0.25;
-            
-            // Auto rotate adapts on scroll
-            globeGroup.rotation.y = scrollPercent * 1.5;
         });
 
-        // Animation Loop
+        // Animation Loop variables
+        let count = 0;
+
         const animate = () => {
             requestAnimationFrame(animate);
-            
-            // Auto-rotate globe and stars if not dragging
-            if (!isDragging) {
-                globeGroup.rotation.y += 0.0015;
-                globeGroup.rotation.x += 0.0003;
-                starfield.rotation.y += 0.0002;
+
+            // Interpolate mouse movements
+            mouseX += (targetMouseX - mouseX) * 0.05;
+            mouseY += (targetMouseY - mouseY) * 0.05;
+
+            // Camera moves based on mouse and page scroll
+            camera.position.x = mouseX * 2.5;
+            camera.position.y = 150 - (scrollPercent * 90) + (mouseY * 0.5);
+            camera.position.z = 250 - (scrollPercent * 50);
+            camera.lookAt(new THREE.Vector3(0, -20 - (scrollPercent * 30), 0));
+
+            // Float the dust particles slowly
+            const dustPositionsAttr = dustGeometry.attributes.position.array;
+            for (let d = 0; d < dustCount; d++) {
+                dustPositionsAttr[d * 3 + 1] += 0.2;
+                dustPositionsAttr[d * 3] += Math.sin(count * 0.01 + d) * 0.1;
+                
+                if (dustPositionsAttr[d * 3 + 1] > 400) {
+                    dustPositionsAttr[d * 3 + 1] = -100;
+                }
+            }
+            dustGeometry.attributes.position.needsUpdate = true;
+
+            // Update grid particle heights using double-sine wave math
+            const positionsAttr = geometry.attributes.position.array;
+            const scalesAttr = geometry.attributes.scale.array;
+
+            let index = 0;
+            let scaleIndex = 0;
+
+            for (let ix = 0; ix < AMOUNTX; ix++) {
+                for (let iy = 0; iy < AMOUNTY; iy++) {
+                    const heightValue = (Math.sin((ix + count) * 0.2) * 20) + (Math.sin((iy + count) * 0.3) * 20);
+                    positionsAttr[index + 1] = heightValue;
+
+                    scalesAttr[scaleIndex] = (Math.sin((ix + count) * 0.2) + 1) * 1.5 + (Math.sin((iy + count) * 0.3) + 1) * 1.5;
+
+                    index += 3;
+                    scaleIndex++;
+                }
             }
 
-            orbitRing1.rotation.z += 0.003;
-            orbitRing2.rotation.z -= 0.002;
+            geometry.attributes.position.needsUpdate = true;
+            geometry.attributes.scale.needsUpdate = true;
+
+            particles.rotation.y = count * 0.002;
 
             renderer.render(scene, camera);
+            count += 0.035;
         };
+
         animate();
 
-        // Handle Resize
         const handleResize = () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-            positionGlobeGroup();
         };
         window.addEventListener('resize', handleResize);
     };
 
-    // Run 3D Space Background
-    init3DGlobe();
+    // Run 3D Wave Grid Background
+    init3DBackground();
+
 
 
     /* ==========================================
