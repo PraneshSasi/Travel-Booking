@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyNest - Book Smarter, Travel Further</title>
+    <meta name="description" content="Discover premium travel experiences at unbeatable rates with SkyNest. Book flights, hotels, and holiday packages globally.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Awwwards Custom Cursor -->
+    <div class="custom-cursor">
+        <span class="custom-cursor-text"></span>
+    </div>
+    <div class="custom-cursor-dot"></div>
+
+    <!-- WebGL Canvas for Full-Page 3D Background -->
+    <div id="page-3d-canvas-container"></div>
+
+    <!-- Background Mesh Gradient Blobs -->
+    <div class="mesh-blob mesh-blob-1"></div>
+    <div class="mesh-blob mesh-blob-2"></div>
+    <div class="mesh-blob mesh-blob-3"></div>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo" id="header-logo">
+                <div class="logo-icon"></div>
+                <span class="logo-text">SkyNest</span>
+            </a>
+            
+            <nav class="nav" id="main-nav">
+                <a href="#" class="nav-link active">Home</a>
+                <a href="#" class="nav-link">Flights</a>
+                <a href="#" class="nav-link">Package</a>
+                <a href="#" class="nav-link">Support</a>
+            </nav>
+
+            <div class="header-actions">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" placeholder="Search..." aria-label="Search destinations">
+                </div>
+                <button class="btn btn-signup" id="signup-btn">
+                    <span>Sign up</span>
+                    <i class="fa-regular fa-user user-avatar-icon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        
+        <!-- Hero Section -->
+        <section class="hero-section scroll-3d-section">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <h1 class="hero-title reveal-text">
+                        <span class="reveal-wrapper">
+                            <span class="reveal-inner">BOOK SMARTER,</span>
+                        </span>
+                        <br>
+                        <span class="reveal-wrapper">
+                            <span class="reveal-inner">TRAVEL FURTHER</span>
+                        </span>
+                    </h1>
+                    <p class="hero-subtitle">Your next destination is just a click away</p>
+                    
+                    <!-- Floating Destination Pills in Hero -->
+                    <div class="hero-destinations-pills">
+                        <div class="pill-thumbnails">
+                            <img src="assets/images/santorini.png" alt="Santorini" class="pill-img">
+                            <img src="assets/images/banff.png" alt="Banff" class="pill-img">
+                            <img src="assets/images/kyoto.png" alt="Kyoto" class="pill-img">
+                        </div>
+                        <div class="pill-controls">
+                            <button class="pill-arrow-btn" aria-label="Previous image"><i class="fa-solid fa-arrow-left"></i></button>
+                            <span class="pill-page-number">1 / 4</span>
+                            <button class="pill-arrow-btn" aria-label="Next image"><i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="hero-actions-container">
+                        <a href="#booking-widget" class="btn btn-primary btn-hero-cta">Book A Trip Now</a>
+                        <div class="hero-socials">
+                            <a href="#" aria-label="X (formerly Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <!-- 3D Globe is rendered interactively via full-page canvas background -->
+                    <div class="hero-plane-wrapper">
+                        <img src="assets/images/hero-plane.png" alt="SkyNest Commercial Airplane" class="hero-plane-img">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking Widget Section -->
+        <section class="booking-section scroll-3d-section" id="booking-widget">
+            <div class="booking-container">
+                <!-- Tabs Menu -->
+                <div class="booking-tabs">
+                    <button class="booking-tab active" id="tab-flights">
+                        <i class="fa-solid fa-plane"></i>
+                        <span>Flights</span>
+                        <i class="fa-solid fa-chevron-down tab-chevron"></i>
+                    </button>
+                    <button class="booking-tab" id="tab-passengers">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Adult</span>
+                        <i class="fa-solid fa-chevron-down tab-chevron"></i>
+                    </button>
+                    <button class="booking-tab" id="tab-class">
+                        <i class="fa-solid fa-couch"></i>
+                        <span>Economy</span>
+                        <i class="fa-solid fa-chevron-down tab-chevron"></i>
+                    </button>
+                </div>
+
+                <!-- Form Card -->
+                <div class="booking-card">
+                    <!-- Way Radio Selection -->
+                    <div class="way-selector">
+                        <label class="radio-label">
+                            <input type="radio" name="trip-type" value="round-trip" checked>
+                            <span class="custom-radio"></span>
+                            Two Way
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="trip-type" value="one-way">
+                            <span class="custom-radio"></span>
+                            One Way
+                        </label>
+                    </div>
+
+                    <!-- Input Grid -->
+                    <form class="booking-form" id="flight-booking-form">
+                        <div class="input-group">
+                            <label for="destination" class="input-label">Destinations +</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-location-dot input-icon"></i>
+                                <input type="text" id="destination" placeholder="Where are you going?" required>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="check-in" class="input-label">Check In</label>
+                            <div class="input-wrapper">
+                                <i class="fa-regular fa-calendar input-icon"></i>
+                                <input type="date" id="check-in" required>
+                            </div>
+                        </div>
+
+                        <div class="input-group" id="checkout-group">
+                            <label for="check-out" class="input-label">Check Out</label>
+                            <div class="input-wrapper">
+                                <i class="fa-regular fa-calendar input-icon"></i>
+                                <input type="date" id="check-out" required>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="guests" class="input-label">Guests +</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-users input-icon"></i>
+                                <select id="guests">
+                                    <option value="1">1 Guest</option>
+                                    <option value="2" selected>2 Guests</option>
+                                    <option value="3">3 Guests</option>
+                                    <option value="4">4 Guests</option>
+                                    <option value="5+">5+ Guests</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-search-submit" aria-label="Search Flights">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exclusive Deals Section -->
+        <section class="deals-section scroll-3d-section">
+            <div class="section-header">
+                <h2 class="section-title reveal-text">
+                    <span class="reveal-wrapper">
+                        <span class="reveal-inner">Exclusive SkyNest Deals</span>
+                    </span>
+                </h2>
+                <p class="section-subtitle">Premium Travel Experiences at Unbeatable Rates.</p>
+            </div>
+
+            <div class="deals-grid">
+                <!-- Deal Card 1: Dubai -->
+                <div class="deal-card" data-destination="dubai">
+                    <div class="deal-image-wrapper">
+                        <img src="assets/images/dubai.png" alt="Burj Khalifa Dubai" class="deal-image">
+                    </div>
+                    <div class="deal-info">
+                        <h3 class="deal-title">Dubai</h3>
+                        <p class="deal-duration" id="dubai-duration">9 days</p>
+                        
+                        <div class="deal-options">
+                            <label class="deal-option">
+                                <input type="radio" name="deal-dubai" value="elite" checked>
+                                <span class="deal-dot"></span>
+                                <div class="option-details">
+                                    <span class="option-name">Elite Escape</span>
+                                    <span class="option-days">9 days</span>
+                                </div>
+                                <span class="option-price">₹1,20,000</span>
+                            </label>
+                            <label class="deal-option">
+                                <input type="radio" name="deal-dubai" value="smart">
+                                <span class="deal-dot"></span>
+                                <div class="option-details">
+                                    <span class="option-name">Smart Saver</span>
+                                    <span class="option-days">7 days</span>
+                                </div>
+                                <span class="option-price">₹80,000</span>
+                            </label>
+                            <label class="deal-option">
+                                <input type="radio" name="deal-dubai" value="budget">
+                                <span class="deal-dot"></span>
+                                <div class="option-details">
+                                    <span class="option-name">Budget Explorer</span>
+                                    <span class="option-days">12 days</span>
+                                </div>
+                                <span class="option-price">₹60,000</span>
+                            </label>
+                        </div>
+
+                        <div class="deal-footer">
+                            <div class="price-display">
+                                <span class="price-amount" id="dubai-price">₹1,20,000</span>
+                            </div>
+                            <button class="btn btn-learn-more">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Deal Card 2: London -->
+                <div class="deal-card" data-destination="london">
+                    <div class="deal-image-wrapper">
+                        <img src="assets/images/london.png" alt="Big Ben London" class="deal-image">
+                    </div>
+                    <div class="deal-info">
+                        <h3 class="deal-title">London</h3>
+                        <p class="deal-duration" id="london-duration">9 days</p>
+                        
+                        <div class="deal-options">
+                            <label class="deal-option">
+                                <input type="radio" name="deal-london" value="elite" checked>
+                                <span class="deal-dot"></span>
+                                <div class="option-details">
+                                    <span class="option-name">Elite Escape</span>
+                                    <span class="option-days">9 days</span>
+                                </div>
+                                <span class="option-price">₹1,80,000</span>
+                            </label>
+                            <label class="deal-option">
+                                <input type="radio" name="deal-london" value="smart">
+                                <span class="deal-dot"></span>
+                                <div class="option-details">
+                                    <span class="option-name">Smart Saver</span>
+                                    <span class="option-days">7 days</span>
+                                </div>
+                                <span class="option-price">₹1,40,000</span>
+                            </label>
+                            <label class="deal-option">
+                                <input type="radio" name="deal-london" value="budget">
+                                <span class="deal-dot"></span>
+                                <div class="option-details">
+                                    <span class="option-name">Budget Explorer</span>
+                                    <span class="option-days">11 days</span>
+                                </div>
+                                <span class="option-price">₹1,20,000</span>
+                            </label>
+                        </div>
+
+                        <div class="deal-footer">
+                            <div class="price-display">
+                                <span class="price-amount" id="london-price">₹1,80,000</span>
+                            </div>
+                            <button class="btn btn-learn-more">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Deal Card 3: Thailand -->
+                <div class="deal-card" data-destination="thailand">
+                    <div class="deal-image-wrapper">
+                        <img src="assets/images/thailand.png" alt="Thailand Beach" class="deal-image">
+                    </div>
+                    <div class="deal-info">
+                        <h3 class="deal-title">Thailand</h3>
+                        <p class="deal-duration" id="thailand-duration">9 days</p>
+                        
+                        <div class="deal-options">
+                            <label class="deal-option">
+                                <input type="radio" name="deal-thailand" value="elite" checked>
+                                <span class="deal-dot"></span>
+                                <div class="option-details">
+                                    <span class="option-name">Elite Escape</span>
+                                    <span class="option-days">9 days</span>
+                                </div>
+                                <span class="option-price">₹1,20,000</span>
+                            </label>
+                            <label class="deal-option">
+                                <input type="radio" name="deal-thailand" value="smart">
+                                <span class="deal-dot"></span>
+                                <div class="option-details">
+                                    <span class="option-name">Smart Saver</span>
+                                    <span class="option-days">7 days</span>
+                                </div>
+                                <span class="option-price">₹90,000</span>
+                            </label>
+                            <label class="deal-option">
+                                <input type="radio" name="deal-thailand" value="budget">
+                                <span class="deal-dot"></span>
+                                <div class="option-details">
+                                    <span class="option-name">Budget Explorer</span>
+                                    <span class="option-days">10 days</span>
+                                </div>
+                                <span class="option-price">₹75,000</span>
+                            </label>
+                        </div>
+
+                        <div class="deal-footer">
+                            <div class="price-display">
+                                <span class="price-amount" id="thailand-price">₹1,20,000</span>
+                            </div>
+                            <button class="btn btn-learn-more">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kinetic Marquee Divider -->
+        <div class="marquee-divider">
+            <div class="marquee-track">
+                <span>EXPLORE THE UNEXPLORED &bull; FLY FAR &bull; PAY LESS &bull; TRAVEL BETTER &bull; SKYNEST TRAVELS &bull; WANDERLUST &bull; EXPLORE THE UNEXPLORED &bull; FLY FAR &bull; PAY LESS &bull; TRAVEL BETTER &bull; SKYNEST TRAVELS &bull; WANDERLUST &bull;</span>
+            </div>
+        </div>
+
+        <!-- Popular Destinations Section -->
+        <section class="popular-section scroll-3d-section">
+            <div class="popular-header">
+                <h2 class="popular-title reveal-text">
+                    <span class="reveal-wrapper">
+                        <span class="reveal-inner">Popular Destination</span>
+                    </span>
+                </h2>
+                <div class="carousel-nav-arrows">
+                    <button class="carousel-arrow-btn" id="carousel-prev" aria-label="Previous destination">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-arrow-btn" id="carousel-next" aria-label="Next destination">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Destinations Carousel Wrapper -->
+            <div class="carousel-container">
+                <div class="carousel-track" id="carousel-track">
+                    
+                    <!-- Destination Card 1 -->
+                    <div class="destination-card">
+                        <img src="assets/images/swiss_alps.png" alt="Swiss Alps, Switzerland" class="destination-img">
+                        <div class="destination-meta">
+                            <h4>Swiss Alps</h4>
+                            <span>Switzerland</span>
+                        </div>
+                    </div>
+
+                    <!-- Destination Card 2 -->
+                    <div class="destination-card">
+                        <img src="assets/images/maldives.png" alt="Maldives Island" class="destination-img">
+                        <div class="destination-meta">
+                            <h4>Maldives</h4>
+                            <span>Maldives</span>
+                        </div>
+                    </div>
+
+                    <!-- Destination Card 3 -->
+                    <div class="destination-card">
+                        <img src="assets/images/machu_picchu.png" alt="Machu Picchu, Peru" class="destination-img">
+                        <div class="destination-meta">
+                            <h4>Machu Picchu</h4>
+                            <span>Peru</span>
+                        </div>
+                    </div>
+
+                    <!-- Destination Card 4 -->
+                    <div class="destination-card">
+                        <img src="assets/images/dead_sea.png" alt="Dead Sea, Jordan" class="destination-img">
+                        <div class="destination-meta">
+                            <h4>Dead Sea</h4>
+                            <span>Jordan</span>
+                        </div>
+                    </div>
+
+                    <!-- Destination Card 5 -->
+                    <div class="destination-card">
+                        <img src="assets/images/santorini.png" alt="Santorini, Greece" class="destination-img">
+                        <div class="destination-meta">
+                            <h4>Santorini</h4>
+                            <span>Greece</span>
+                        </div>
+                    </div>
+
+                    <!-- Destination Card 6 -->
+                    <div class="destination-card">
+                        <img src="assets/images/banff.png" alt="Banff National Park, Canada" class="destination-img">
+                        <div class="destination-meta">
+                            <h4>Banff National Park</h4>
+                            <span>Canada</span>
+                        </div>
+                    </div>
+
+                    <!-- Destination Card 7 -->
+                    <div class="destination-card">
+                        <img src="assets/images/kyoto.png" alt="Kyoto Temples, Japan" class="destination-img">
+                        <div class="destination-meta">
+                            <h4>Kyoto Temples</h4>
+                            <span>Japan</span>
+                        </div>
+                    </div>
+
+                    <!-- Destination Card 8 -->
+                    <div class="destination-card">
+                        <img src="assets/images/tajmahal.png" alt="Taj Mahal, India" class="destination-img">
+                        <div class="destination-meta">
+                            <h4>Taj Mahal</h4>
+                            <span>India</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section class="about-section scroll-3d-section">
+            <div class="about-container">
+                <div class="about-text-content">
+                    <h2 class="about-title reveal-text">
+                        <span class="reveal-wrapper">
+                            <span class="reveal-inner">About Us</span>
+                        </span>
+                    </h2>
+                    <p class="about-paragraph">
+                        At SkyNest Travels, we believe travel isn't just about visiting places; it's about creating unforgettable experiences. From sun-kissed beaches to iconic landmarks, we design seamless journeys tailored to your dreams. With a focus on comfort, convenience, and curated luxury, our mission is to make travel planning effortless and exciting. Whether you're seeking a spiritual escape, a romantic getaway, or an adventurous expedition, we're here to fly you away with style and simplicity. Let us take you places you've always dreamed of—the world is waiting.
+                    </p>
+                </div>
+                <div class="about-visual">
+                    <img src="assets/images/about-us-plane.png" alt="Private Jet flight" class="about-img">
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials-section scroll-3d-section">
+            <h2 class="testimonials-heading reveal-text">
+                <span class="reveal-wrapper">
+                    <span class="reveal-inner">SkyNest Clients</span>
+                </span>
+            </h2>
+            
+            <div class="testimonials-grid">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card">
+                    <div class="stars-rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        My trip to Dubai was perfectly planned by SkyNest. From booking my flights to arranging a luxury hotel with a Burj Khalifa view, everything was smooth and stress-free. The team was available whenever I needed support and made sure I had all the documents and confirmations beforehand. Truly impressed with their service and attention to detail.
+                    </p>
+                    <div class="client-profile">
+                        <img src="assets/images/avatar-1.png" alt="Arjun Malhotra" class="client-avatar">
+                        <span class="client-name">Arjun Malhotra</span>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card">
+                    <div class="stars-rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        I booked a solo trip to Turkey through SkyNest and honestly, it couldn't have gone better. The itinerary was well thought out, and they included offbeat places along with the popular spots. The accommodation and transport arrangements were top-notch. It felt like they genuinely wanted me to have a great time and I did!
+                    </p>
+                    <div class="client-profile">
+                        <img src="assets/images/avatar-2.png" alt="Sara Qureshi" class="client-avatar">
+                        <span class="client-name">Sara Qureshi</span>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card">
+                    <div class="stars-rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        I recently used SkyNest for a family vacation to Egypt, and the experience was wonderful. Everything was on time, the guides were knowledgeable, and the hotel was kid-friendly, just what we asked for. I'd happily recommend them to anyone looking for hassle-free travel with a personal touch.
+                    </p>
+                    <div class="client-profile">
+                        <img src="assets/images/avatar-3.png" alt="Nikhil Verma" class="client-avatar">
+                        <span class="client-name">Nikhil Verma</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer scroll-3d-section">
+        <div class="footer-container">
+            <div class="footer-brand-column">
+                <a href="#" class="logo footer-logo">
+                    <div class="logo-icon"></div>
+                    <span class="logo-text">SkyNest</span>
+                </a>
+                <div class="footer-socials">
+                    <span class="follow-label">Follow</span>
+                    <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links-columns">
+                <div class="footer-column">
+                    <h4>Travel</h4>
+                    <ul>
+                        <li><a href="#">Asia</a></li>
+                        <li><a href="#">Europe</a></li>
+                        <li><a href="#">Australia</a></li>
+                        <li><a href="#">America</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Packages</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Extra Links</h4>
+                    <ul>
+                        <li><a href="#">Customer Support</a></li>
+                        <li><a href="#">Terms and Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom-text">
+            Fly Far. Pay Less. Travel Better.
+        </div>
+    </footer>
+
+    <!-- Three.js CDN for 3D Visualizations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
