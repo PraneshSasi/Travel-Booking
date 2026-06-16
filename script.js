@@ -237,12 +237,22 @@ document.addEventListener('DOMContentLoaded', () => {
             if (val === 'hotels') {
                 destinationInputLabel.textContent = 'Hotels/City +';
                 destinationInput.placeholder = 'Where are you staying?';
-            } else if (val === 'packages') {
-                destinationInputLabel.textContent = 'Packages +';
-                destinationInput.placeholder = 'Where do you want to explore?';
-            } else {
+            } else if (val === 'things-to-do') {
+                destinationInputLabel.textContent = 'Attractions +';
+                destinationInput.placeholder = 'What to do?';
+            } else if (val === 'restaurants') {
+                destinationInputLabel.textContent = 'Restaurants +';
+                destinationInput.placeholder = 'Where to eat?';
+            } else if (val === 'flights') {
                 destinationInputLabel.textContent = 'Destinations +';
-                destinationInput.placeholder = 'Where are you going?';
+                destinationInput.placeholder = 'Where are you flying?';
+            } else if (val === 'holiday-homes') {
+                destinationInputLabel.textContent = 'Holiday Homes +';
+                destinationInput.placeholder = 'Where do you want to stay?';
+            } else {
+                // Default (Search All)
+                destinationInputLabel.textContent = 'Destinations +';
+                destinationInput.placeholder = 'Where to?';
             }
 
             item.closest('.tab-dropdown').classList.remove('active');
